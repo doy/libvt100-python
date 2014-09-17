@@ -1,5 +1,9 @@
 Revision history for vt100
 
+0.1.4  2014-09-17
+    - Update libvt100 to quiet some warnings about unimplemented unimportant
+      escape sequences
+
 0.1.3  2014-09-17
     - Get the module compiling under Python 2
 
