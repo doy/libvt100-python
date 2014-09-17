@@ -1,5 +1,9 @@
 Revision history for vt100
 
+0.1.2  2014-09-17
+    - Add methods to the cell and color objects, rather than just exposing the
+      structs and unions directly
+
 0.1.1  2014-09-17
     - Update libvt100 to handle a few more escape sequences (VPA, CHA, and the
       1002 and 1006 DECSET/DECRST modes)
