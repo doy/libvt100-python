@@ -1,0 +1,8 @@
+# libvt100-python
+
+This module contains bindings to the libvt100 library, at
+https://github.com/doy/libvt100.
+
+# Dependencies
+
+* glib-2.0

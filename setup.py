@@ -18,6 +18,7 @@ setup(
     author="Jesse Luehrs",
     author_email="doy@tozt.net",
     url="https://github.com/doy/libvt100-python/",
+    license="MIT License",
     packages=["vt100"],
     ext_modules=[
         Extension(
