@@ -76,7 +76,11 @@ static PyObject *py_vt100_get_string_formatted(PyObject *self, PyObject *args)
 
     vt100_screen_get_string_formatted(vt, &start, &end, &outstr, &outlen);
 
+#if PY_MAJOR_VERSION == 3
     return Py_BuildValue("y#", outstr, outlen);
+#else
+    return Py_BuildValue("s#", outstr, outlen);
+#endif
 }
 
 static PyObject *py_vt100_get_string_plaintext(PyObject *self, PyObject *args)
@@ -92,7 +96,11 @@ static PyObject *py_vt100_get_string_plaintext(PyObject *self, PyObject *args)
 
     vt100_screen_get_string_plaintext(vt, &start, &end, &outstr, &outlen);
 
+#if PY_MAJOR_VERSION == 3
     return Py_BuildValue("y#", outstr, outlen);
+#else
+    return Py_BuildValue("s#", outstr, outlen);
+#endif
 }
 
 static PyObject *py_vt100_delete(PyObject *self, PyObject *args)
@@ -118,6 +126,7 @@ static PyMethodDef vt100_methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+#if PY_MAJOR_VERSION == 3
 static struct PyModuleDef vt100module = {
     PyModuleDef_HEAD_INIT,
     "vt100_raw",
@@ -130,3 +139,9 @@ PyMODINIT_FUNC PyInit_vt100_raw()
 {
     return PyModule_Create(&vt100module);
 }
+#else
+PyMODINIT_FUNC initvt100_raw()
+{
+    (void) Py_InitModule("vt100_raw", vt100_methods);
+}
+#endif
