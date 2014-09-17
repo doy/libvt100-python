@@ -108,25 +108,25 @@ static PyObject *py_vt100_delete(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef vt100_methods[] = {
-    { "vt100_new", py_vt100_new, METH_VARARGS, "create a new vt100 object" },
-    { "vt100_set_window_size", py_vt100_set_window_size, METH_VARARGS, "create a new vt100 object" },
-    { "vt100_process_string", py_vt100_process_string, METH_VARARGS, "create a new vt100 object" },
-    { "vt100_cell_at", py_vt100_cell_at, METH_VARARGS, "create a new vt100 object" },
-    { "vt100_get_string_formatted", py_vt100_get_string_formatted, METH_VARARGS, "create a new vt100 object" },
-    { "vt100_get_string_plaintext", py_vt100_get_string_plaintext, METH_VARARGS, "create a new vt100 object" },
-    { "vt100_delete", py_vt100_delete, METH_VARARGS, "create a new vt100 object" },
+    { "new", py_vt100_new, METH_VARARGS, "create a new vt100 object" },
+    { "set_window_size", py_vt100_set_window_size, METH_VARARGS, "create a new vt100 object" },
+    { "process_string", py_vt100_process_string, METH_VARARGS, "create a new vt100 object" },
+    { "cell_at", py_vt100_cell_at, METH_VARARGS, "create a new vt100 object" },
+    { "get_string_formatted", py_vt100_get_string_formatted, METH_VARARGS, "create a new vt100 object" },
+    { "get_string_plaintext", py_vt100_get_string_plaintext, METH_VARARGS, "create a new vt100 object" },
+    { "delete", py_vt100_delete, METH_VARARGS, "create a new vt100 object" },
     { NULL, NULL, 0, NULL }
 };
 
 static struct PyModuleDef vt100module = {
     PyModuleDef_HEAD_INIT,
-    "vt100",
+    "vt100_raw",
     NULL,
     -1,
     vt100_methods
 };
 
-PyMODINIT_FUNC PyInit_vt100()
+PyMODINIT_FUNC PyInit_vt100_raw()
 {
     return PyModule_Create(&vt100module);
 }

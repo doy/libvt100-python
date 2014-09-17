@@ -18,9 +18,10 @@ setup(
     author="Jesse Luehrs",
     author_email="doy@tozt.net",
     url="https://github.com/doy/vt100/",
+    packages=["vt100"],
     ext_modules=[
         Extension(
-            name="vt100",
+            name="vt100_raw",
             sources=[
                 "vt100module.c",
                 "libvt100/src/screen.c",
