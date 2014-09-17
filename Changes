@@ -1,0 +1,8 @@
+Revision history for vt100
+
+0.1.1  2014-09-17
+    - Update libvt100 to handle a few more escape sequences (VPA, CHA, and the
+      1002 and 1006 DECSET/DECRST modes)
+
+0.1.0  2014-09-16
+    - Initial revision
