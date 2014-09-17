@@ -13,11 +13,11 @@ def pkgconfig(*packages, **kw):
 
 setup(
     name="vt100",
-    version="0.0.1",
+    version="0.1.0",
     description="an in-memory terminal parsing library",
     author="Jesse Luehrs",
     author_email="doy@tozt.net",
-    url="https://github.com/doy/vt100/",
+    url="https://github.com/doy/libvt100-python/",
     packages=["vt100"],
     ext_modules=[
         Extension(
@@ -29,5 +29,10 @@ setup(
             ],
             **pkgconfig('glib-2.0')
         )
+    ],
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "License :: OSI Approved :: MIT License",
+        "Topic :: Terminals :: Terminal Emulators/X Terminals",
     ],
 )
