@@ -75,4 +75,4 @@ class vt100(object):
         )
 
     def cell(self, x, y):
-        return cast(vt100_raw.cell_at(self.vt, x, y), vt100_cell)
+        return vt100_cell.from_address(vt100_raw.cell_at(self.vt, x, y))
