@@ -1,5 +1,8 @@
 Revision history for vt100
 
+0.1.5  2014-09-25
+    - actually call the delete function when appropriate
+
 0.1.4  2014-09-17
     - Update libvt100 to quiet some warnings about unimplemented unimportant
       escape sequences
