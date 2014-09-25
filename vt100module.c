@@ -111,6 +111,8 @@ static PyObject *py_vt100_delete(PyObject *self, PyObject *args)
         return NULL;
     }
 
+    vt100_screen_delete(vt);
+
     Py_INCREF(Py_None);
     return Py_None;
 }
