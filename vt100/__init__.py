@@ -16,11 +16,18 @@ class vt100_color_type(Union):
         ("_idx", c_ubyte),
     ]
 
-class vt100_color(Structure):
+class vt100_color_def(Structure):
     _anonymous_ = ("_color",)
     _fields_ = [
         ("_color", vt100_color_type),
         ("_type", c_ubyte),
+    ]
+
+class vt100_color(Union):
+    _anonymous_ = ("_color",)
+    _fields_ = [
+        ("_color", vt100_color_def),
+        ("_id", c_uint32),
     ]
 
     def type(self):
