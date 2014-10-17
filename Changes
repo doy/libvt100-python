@@ -1,7 +1,11 @@
 Revision history for vt100
 
+0.1.6  2014-10-17
+    - Fix ctypes struct definition to match the c-level definition (this fixes
+      cell.is_wide())
+
 0.1.5  2014-09-25
-    - actually call the delete function when appropriate
+    - Actually call the delete function when appropriate
 
 0.1.4  2014-09-17
     - Update libvt100 to quiet some warnings about unimplemented unimportant
