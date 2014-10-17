@@ -107,7 +107,7 @@ class vt100_cell(Structure):
         return self._attrs._inverse != 0
 
     def is_wide(self):
-        return self._is_wide
+        return self._is_wide != 0
 
 # XXX process/cell need mutexes
 class vt100(object):
