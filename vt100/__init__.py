@@ -109,12 +109,41 @@ class vt100_cell(Structure):
     def is_wide(self):
         return self._is_wide != 0
 
+class vt100_screen(Structure):
+    _fields_ = [
+        ("_grid", c_void_p),
+        ("_alternate", c_void_p),
+        ("_title", c_char_p),
+        ("_title_len", c_size_t),
+        ("_icon_name", c_char_p),
+        ("_icon_name_len", c_size_t),
+        ("_attrs", vt100_cell_attrs),
+        ("_scrollback_length", c_int),
+        ("_parser_state", c_void_p),
+        ("_hide_cursor", c_ubyte, 1),
+        ("_application_keypad", c_ubyte, 1),
+        ("_application_cursor", c_ubyte, 1),
+        ("_mouse_reporting_press", c_ubyte, 1),
+        ("_mouse_reporting_press_release", c_ubyte, 1),
+        ("_mouse_reporting_button_motion", c_ubyte, 1),
+        ("_mouse_reporting_sgr_mode", c_ubyte, 1),
+        ("_bracketed_paste", c_ubyte, 1),
+        ("_visual_bell", c_ubyte, 1),
+        ("_audible_bell", c_ubyte, 1),
+        ("_update_title", c_ubyte, 1),
+        ("_update_icon_name", c_ubyte, 1),
+        ("_has_selection", c_ubyte, 1),
+        ("_dirty", c_ubyte, 1),
+        ("_custom_scrollback_length", c_ubyte, 1),
+    ]
+
 # XXX process/cell need mutexes
 class vt100(object):
     def __init__(self, rows, cols):
         self.rows = rows
         self.cols = cols
         self.vt = vt100_raw.new(rows, cols)
+        self.screen = vt100_screen.from_address(self.vt)
 
     def __del__(self):
         vt100_raw.delete(self.vt)
