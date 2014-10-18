@@ -1,6 +1,6 @@
 from . import VT100Test
 
-class EscapeTest(VT100Test):
+class ControlTest(VT100Test):
     def test_bel(self):
         assert not self.vt.seen_audible_bell()
         self.vt.process("\a")
