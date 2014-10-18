@@ -178,3 +178,13 @@ class vt100(object):
         if x < 0 or x >= self.cols or y < 0 or y >= self.rows:
             return None
         return vt100_cell.from_address(vt100_raw.cell_at(self.vt, x, y))
+
+    def seen_visual_bell(self):
+        seen = self.screen._visual_bell
+        self.screen._visual_bell = 0
+        return seen != 0
+
+    def seen_audible_bell(self):
+        seen = self.screen._audible_bell
+        self.screen._audible_bell = 0
+        return seen != 0
