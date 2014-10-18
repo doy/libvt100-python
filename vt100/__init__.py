@@ -112,26 +112,40 @@ class vt100_cell(Structure):
 # XXX process/cell need mutexes
 class vt100(object):
     def __init__(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
         self.vt = vt100_raw.new(rows, cols)
 
     def __del__(self):
         vt100_raw.delete(self.vt)
 
     def set_window_size(self, rows, cols):
+        self.rows = rows
+        self.cols = cols
         vt100_raw.set_window_size(self.vt, rows, cols)
 
     def process(self, string):
         return vt100_raw.process_string(self.vt, string)
 
     def get_string_formatted(self, row_start, col_start, row_end, col_end):
+        row_start = min(max(row_start, 0), self.rows - 1)
+        col_start = min(max(col_start, 0), self.cols - 1)
+        row_end = min(max(row_end, 0), self.rows - 1)
+        col_end = min(max(col_end, 0), self.cols - 1)
         return vt100_raw.get_string_formatted(
             self.vt, row_start, col_start, row_end, col_end
         )
 
     def get_string_plaintext(self, row_start, col_start, row_end, col_end):
+        row_start = min(max(row_start, 0), self.rows - 1)
+        col_start = min(max(col_start, 0), self.cols - 1)
+        row_end = min(max(row_end, 0), self.rows - 1)
+        col_end = min(max(col_end, 0), self.cols - 1)
         return vt100_raw.get_string_plaintext(
             self.vt, row_start, col_start, row_end, col_end
         )
 
     def cell(self, x, y):
+        if x < 0 or x >= self.cols or y < 0 or y >= self.rows:
+            return None
         return vt100_cell.from_address(vt100_raw.cell_at(self.vt, x, y))
