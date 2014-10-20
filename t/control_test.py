@@ -3,19 +3,19 @@ from . import VT100Test
 class ControlTest(VT100Test):
     def test_bel(self):
         assert not self.vt.seen_audible_bell()
-        self.vt.process("\a")
+        self.process("\a")
         assert self.vt.seen_audible_bell()
         assert not self.vt.seen_audible_bell()
 
     def test_bs(self):
-        self.vt.process("foo\b\baa")
+        self.process("foo\b\baa")
         assert self.vt.cell(0, 0).contents() == "f"
         assert self.vt.cell(0, 1).contents() == "a"
         assert self.vt.cell(0, 2).contents() == "a"
         assert self.vt.cell(0, 3).contents() == ""
         assert self.vt.cell(1, 0).contents() == ""
         assert self.vt.get_string_plaintext(0, 0, 23, 79) == 'faa' + ('\n' * 24)
-        self.vt.process("\r\nquux\b\b\b\b\b\bbar")
+        self.process("\r\nquux\b\b\b\b\b\bbar")
         assert self.vt.cell(1, 0).contents() == "b"
         assert self.vt.cell(1, 1).contents() == "a"
         assert self.vt.cell(1, 2).contents() == "r"
@@ -25,7 +25,7 @@ class ControlTest(VT100Test):
         assert self.vt.get_string_plaintext(0, 0, 23, 79) == 'faa\nbarx' + ('\n' * 23)
 
     def test_tab(self):
-        self.vt.process("foo\tbar")
+        self.process("foo\tbar")
         assert self.vt.cell(0, 0).contents() == "f"
         assert self.vt.cell(0, 1).contents() == "o"
         assert self.vt.cell(0, 2).contents() == "o"
@@ -41,7 +41,7 @@ class ControlTest(VT100Test):
         assert self.vt.get_string_plaintext(0, 0, 23, 79) == 'foo     bar' + ('\n' * 24)
 
     def test_lf(self):
-        self.vt.process("foo\nbar")
+        self.process("foo\nbar")
         assert self.vt.cell(0, 0).contents() == "f"
         assert self.vt.cell(0, 1).contents() == "o"
         assert self.vt.cell(0, 2).contents() == "o"
@@ -56,7 +56,7 @@ class ControlTest(VT100Test):
         assert self.vt.get_string_plaintext(0, 0, 23, 79) == 'foo\n   bar' + ('\n' * 23)
 
     def test_cr(self):
-        self.vt.process("fooo\rbar")
+        self.process("fooo\rbar")
         assert self.vt.cell(0, 0).contents() == "b"
         assert self.vt.cell(0, 1).contents() == "a"
         assert self.vt.cell(0, 2).contents() == "r"

@@ -3,13 +3,13 @@ from . import VT100Test
 class EscapeTest(VT100Test):
     def test_deckpam(self):
         assert not self.vt.application_keypad()
-        self.vt.process("\033=")
+        self.process("\033=")
         assert self.vt.application_keypad()
-        self.vt.process("\033>")
+        self.process("\033>")
         assert not self.vt.application_keypad()
 
     def test_ri(self):
-        self.vt.process("foo\nbar\033Mbaz")
+        self.process("foo\nbar\033Mbaz")
         assert self.vt.get_string_plaintext(0, 0, 23, 79) == 'foo   baz\n   bar' + ('\n' * 23)
 
     def test_ris(self):
@@ -47,7 +47,7 @@ class EscapeTest(VT100Test):
         assert not self.vt.seen_visual_bell()
         assert not self.vt.seen_audible_bell()
 
-        self.vt.process("f\033[31m\033[47;1;3;4moo\033[7m\033[21;21H\033]2;window title\007\033]1;window icon name\007\033[?25l\033[?1h\033=\033[?9h\033[?1000h\033[?1002h\033[?1006h\033[?2004h\007\033g")
+        self.process("f\033[31m\033[47;1;3;4moo\033[7m\033[21;21H\033]2;window title\007\033]1;window icon name\007\033[?25l\033[?1h\033=\033[?9h\033[?1000h\033[?1002h\033[?1006h\033[?2004h\007\033g")
 
         row, col = self.vt.cursor_pos()
         assert row == 20
@@ -83,7 +83,7 @@ class EscapeTest(VT100Test):
         assert self.vt.seen_visual_bell()
         assert self.vt.seen_audible_bell()
 
-        self.vt.process("\033c")
+        self.process("\033c")
 
         row, col = self.vt.cursor_pos()
         assert row == 0
@@ -122,10 +122,10 @@ class EscapeTest(VT100Test):
 
     def test_vb(self):
         assert not self.vt.seen_visual_bell()
-        self.vt.process("\033g")
+        self.process("\033g")
         assert self.vt.seen_visual_bell()
         assert not self.vt.seen_visual_bell()
 
     def test_decsc(self):
-        self.vt.process("foo\0337\r\n\r\n\r\n         bar\0338baz")
+        self.process("foo\0337\r\n\r\n\r\n         bar\0338baz")
         assert self.vt.get_string_plaintext(0, 0, 23, 79) == 'foobaz\n\n\n         bar' + ('\n' * 21)
