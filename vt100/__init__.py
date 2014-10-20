@@ -109,10 +109,31 @@ class vt100_cell(Structure):
     def is_wide(self):
         return self._is_wide != 0
 
+class vt100_loc(Structure):
+    _fields_ = [
+        ("row", c_int),
+        ("col", c_int),
+    ]
+
+class vt100_grid(Structure):
+    _fields_ = [
+        ("_cur", vt100_loc),
+        ("_max", vt100_loc),
+        ("_saved", vt100_loc),
+        ("_selection_start", vt100_loc),
+        ("_selection_end", vt100_loc),
+        ("_scroll_top", c_int),
+        ("_scroll_bottom", c_int),
+        ("_row_count", c_int),
+        ("_row_capacity", c_int),
+        ("_row_top", c_int),
+        ("_rows", c_void_p),
+    ]
+
 class vt100_screen(Structure):
     _fields_ = [
-        ("_grid", c_void_p),
-        ("_alternate", c_void_p),
+        ("_grid", POINTER(vt100_grid)),
+        ("_alternate", POINTER(vt100_grid)),
         ("_title", c_char_p),
         ("_title_len", c_size_t),
         ("_icon_name", c_char_p),
@@ -178,6 +199,10 @@ class vt100(object):
         if x < 0 or x >= self.cols or y < 0 or y >= self.rows:
             return None
         return vt100_cell.from_address(vt100_raw.cell_at(self.vt, x, y))
+
+    def cursor_pos(self):
+        pos = self.screen._grid.contents._cur
+        return pos.col, pos.row
 
     def title(self):
         return self.screen._title[:self.screen._title_len].decode('utf-8')
