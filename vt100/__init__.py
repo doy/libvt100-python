@@ -202,7 +202,7 @@ class vt100(object):
 
     def cursor_pos(self):
         pos = self.screen._grid.contents._cur
-        return pos.col, pos.row
+        return pos.row, pos.col
 
     def title(self):
         return self.screen._title[:self.screen._title_len].decode('utf-8')
