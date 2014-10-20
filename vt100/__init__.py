@@ -205,10 +205,18 @@ class vt100(object):
         return pos.row, pos.col
 
     def title(self):
-        return self.screen._title[:self.screen._title_len].decode('utf-8')
+        title_str = self.screen._title
+        if title_str is None:
+            return ""
+        else:
+            return title_str[:self.screen._title_len].decode('utf-8')
 
     def icon_name(self):
-        return self.screen._icon_name[:self.screen._icon_name_len].decode('utf-8')
+        icon_name_str = self.screen._icon_name
+        if icon_name_str is None:
+            return ""
+        else:
+            return icon_name_str[:self.screen._icon_name_len].decode('utf-8')
 
     def default_fgcolor(self):
         return self._attrs._fgcolor
