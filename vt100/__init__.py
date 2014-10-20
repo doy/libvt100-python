@@ -179,6 +179,57 @@ class vt100(object):
             return None
         return vt100_cell.from_address(vt100_raw.cell_at(self.vt, x, y))
 
+    def title(self):
+        return self.screen._title[:self.screen._title_len].decode('utf-8')
+
+    def icon_name(self):
+        return self.screen._icon_name[:self.screen._icon_name_len].decode('utf-8')
+
+    def default_fgcolor(self):
+        return self._attrs._fgcolor
+
+    def default_bgcolor(self):
+        return self._attrs._bgcolor
+
+    def all_default_attrs(self):
+        return self._attrs._attrs
+
+    def default_bold(self):
+        return self._attrs._bold != 0
+
+    def default_italic(self):
+        return self._attrs._italic != 0
+
+    def default_underline(self):
+        return self._attrs._underline != 0
+
+    def default_inverse(self):
+        return self._attrs._inverse != 0
+
+    def hide_cursor(self):
+        return self.screen._hide_cursor != 0
+
+    def application_keypad(self):
+        return self.screen._application_keypad != 0
+
+    def application_cursor(self):
+        return self.screen._application_cursor != 0
+
+    def mouse_reporting_press(self):
+        return self.screen._mouse_reporting_press != 0
+
+    def mouse_reporting_press_release(self):
+        return self.screen._mouse_reporting_press_release != 0
+
+    def mouse_reporting_button_motion(self):
+        return self.screen._mouse_reporting_button_motion != 0
+
+    def mouse_reporting_sgr_mode(self):
+        return self.screen._mouse_reporting_sgr_mode != 0
+
+    def bracketed_paste(self):
+        return self.screen._bracketed_paste != 0
+
     def seen_visual_bell(self):
         seen = self.screen._visual_bell
         self.screen._visual_bell = 0
