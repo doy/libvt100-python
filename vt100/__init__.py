@@ -195,10 +195,10 @@ class vt100(object):
             self.vt, row_start, col_start, row_end, col_end
         )
 
-    def cell(self, x, y):
-        if x < 0 or x >= self.cols or y < 0 or y >= self.rows:
+    def cell(self, row, col):
+        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
             return None
-        return vt100_cell.from_address(vt100_raw.cell_at(self.vt, x, y))
+        return vt100_cell.from_address(vt100_raw.cell_at(self.vt, row, col))
 
     def cursor_pos(self):
         pos = self.screen._grid.contents._cur
