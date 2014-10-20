@@ -219,25 +219,25 @@ class vt100(object):
             return icon_name_str[:self.screen._icon_name_len].decode('utf-8')
 
     def default_fgcolor(self):
-        return self._attrs._fgcolor
+        return self.screen._attrs._fgcolor
 
     def default_bgcolor(self):
-        return self._attrs._bgcolor
+        return self.screen._attrs._bgcolor
 
     def all_default_attrs(self):
-        return self._attrs._attrs
+        return self.screen._attrs._attrs
 
     def default_bold(self):
-        return self._attrs._bold != 0
+        return self.screen._attrs._bold != 0
 
     def default_italic(self):
-        return self._attrs._italic != 0
+        return self.screen._attrs._italic != 0
 
     def default_underline(self):
-        return self._attrs._underline != 0
+        return self.screen._attrs._underline != 0
 
     def default_inverse(self):
-        return self._attrs._inverse != 0
+        return self.screen._attrs._inverse != 0
 
     def hide_cursor(self):
         return self.screen._hide_cursor != 0
