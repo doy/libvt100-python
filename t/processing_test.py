@@ -23,6 +23,15 @@ class ProcessingTest(VT100Test):
         assert self.vt.process("abc\033[12;24") == 3
         assert self.vt.process("abc\033[12;24H") == 11
 
+        assert self.vt.process("\033") == 0
+        assert self.vt.process("\033[") == 0
+        assert self.vt.process("\033[?") == 0
+        assert self.vt.process("\033[?1") == 0
+        assert self.vt.process("\033[?10") == 0
+        assert self.vt.process("\033[?100") == 0
+        assert self.vt.process("\033[?1000") == 0
+        assert self.vt.process("\033[?1000h") == 8
+
         assert self.vt.process("\033]") == 0
         assert self.vt.process("\033]4") == 0
         assert self.vt.process("\033]49") == 0
