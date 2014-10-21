@@ -30,26 +30,16 @@ class vt100_color(Union):
         ("_id", c_uint32),
     ]
 
-    def type(self):
-        if self._type == 0:
-            return "default"
-        elif self._type == 1:
-            return "indexed"
-        elif self._type == 2:
-            return "rgb"
-        else:
-            raise Exception("unknown color type: %d" % self._type)
-
     def color(self):
-        color_type = self.type()
-        if color_type == "default":
+        color_type = self._type
+        if color_type == 0:
             return None
-        elif color_type == "indexed":
+        elif color_type == 1:
             return self._idx
-        elif color_type == "rgb":
+        elif color_type == 2:
             return (self._r, self._g, self._b)
         else:
-            raise Exception("unknown color type: %s" % color_type)
+            raise Exception("unknown color type: %d" % color_type)
 
 class vt100_named_attrs(Structure):
     _fields_ = [
@@ -86,10 +76,10 @@ class vt100_cell(Structure):
         return self._contents[:self._len].decode('utf-8')
 
     def fgcolor(self):
-        return self._attrs._fgcolor
+        return self._attrs._fgcolor.color()
 
     def bgcolor(self):
-        return self._attrs._bgcolor
+        return self._attrs._bgcolor.color()
 
     def all_attrs(self):
         return self._attrs._attrs
@@ -219,10 +209,10 @@ class vt100(object):
             return icon_name_str[:self.screen._icon_name_len].decode('utf-8')
 
     def default_fgcolor(self):
-        return self.screen._attrs._fgcolor
+        return self.screen._attrs._fgcolor.color()
 
     def default_bgcolor(self):
-        return self.screen._attrs._bgcolor
+        return self.screen._attrs._bgcolor.color()
 
     def all_default_attrs(self):
         return self.screen._attrs._attrs

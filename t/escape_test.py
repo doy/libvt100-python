@@ -26,10 +26,8 @@ class EscapeTest(VT100Test):
         assert self.vt.title() == ""
         assert self.vt.icon_name() == ""
 
-        color = self.vt.default_fgcolor()
-        assert color.color() is None
-        color = self.vt.default_bgcolor()
-        assert color.color() is None
+        assert self.vt.default_fgcolor() is None
+        assert self.vt.default_bgcolor() is None
 
         assert not self.vt.default_bold()
         assert not self.vt.default_italic()
@@ -62,10 +60,8 @@ class EscapeTest(VT100Test):
         assert self.vt.title() == "window title"
         assert self.vt.icon_name() == "window icon name"
 
-        color = self.vt.default_fgcolor()
-        assert color.color() is 1
-        color = self.vt.default_bgcolor()
-        assert color.color() is 7
+        assert self.vt.default_fgcolor() == 1
+        assert self.vt.default_bgcolor() == 7
 
         assert self.vt.default_bold()
         assert self.vt.default_italic()
@@ -99,10 +95,8 @@ class EscapeTest(VT100Test):
         assert self.vt.title() == "window title"
         assert self.vt.icon_name() == "window icon name"
 
-        color = self.vt.default_fgcolor()
-        assert color.color() is None
-        color = self.vt.default_bgcolor()
-        assert color.color() is None
+        assert self.vt.default_fgcolor() is None
+        assert self.vt.default_bgcolor() is None
 
         assert not self.vt.default_bold()
         assert not self.vt.default_italic()
