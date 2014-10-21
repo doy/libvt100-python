@@ -1,7 +1,7 @@
 from . import VT100Test
 
 class CSITest(VT100Test):
-    def test_cup(self):
+    def test_absolute_movement(self):
         assert self.vt.cursor_pos() == (0, 0)
 
         self.process("\033[10;10H")
@@ -13,6 +13,12 @@ class CSITest(VT100Test):
         self.process("\033[8H")
         assert self.vt.cursor_pos() == (7, 0)
 
+        self.process("\033[15G")
+        assert self.vt.cursor_pos() == (7, 14)
+
+        self.process("\033[G")
+        assert self.vt.cursor_pos() == (7, 0)
+
         self.process("\033[0;0H")
         assert self.vt.cursor_pos() == (0, 0)
 
@@ -22,7 +28,7 @@ class CSITest(VT100Test):
         self.process("\033[500;500H")
         assert self.vt.cursor_pos() == (23, 79)
 
-    def test_directional_movement(self):
+    def test_relative_movement(self):
         assert self.vt.cursor_pos() == (0, 0)
 
         self.process("\033[C")
@@ -182,3 +188,38 @@ class CSITest(VT100Test):
         self.process("\033[10;12H\033[100P")
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         fo' + ("\n" * 15)
         assert self.vt.cursor_pos() == (9, 11)
+
+    def test_il_dl(self):
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
+
+        self.process("\033[10;10Hfoobar\033[3D")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         foobar' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 12)
+
+        self.process("\033[L")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 10) + '         foobar' + ("\n" * 14)
+        assert self.vt.cursor_pos() == (9, 12)
+
+        self.process("\033[3L")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 13) + '         foobar' + ("\n" * 11)
+        assert self.vt.cursor_pos() == (9, 12)
+
+        self.process("\033[500L")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
+        assert self.vt.cursor_pos() == (9, 12)
+
+        self.process("\033[10;10Hfoobar\033[3D\033[6A")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         foobar' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (3, 12)
+
+        self.process("\033[M")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 8) + '         foobar' + ("\n" * 16)
+        assert self.vt.cursor_pos() == (3, 12)
+
+        self.process("\033[3M")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 5) + '         foobar' + ("\n" * 19)
+        assert self.vt.cursor_pos() == (3, 12)
+
+        self.process("\033[500M")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
+        assert self.vt.cursor_pos() == (3, 12)
