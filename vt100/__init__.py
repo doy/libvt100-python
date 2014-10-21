@@ -176,7 +176,7 @@ class vt100(object):
         col_end = min(max(col_end, 0), self._cols - 1)
         return vt100_raw.get_string_formatted(
             addressof(self._screen), row_start, col_start, row_end, col_end
-        )
+        ).decode('utf-8')
 
     def get_string_plaintext(self, row_start, col_start, row_end, col_end):
         row_start = min(max(row_start, 0), self._rows - 1)
@@ -185,7 +185,7 @@ class vt100(object):
         col_end = min(max(col_end, 0), self._cols - 1)
         return vt100_raw.get_string_plaintext(
             addressof(self._screen), row_start, col_start, row_end, col_end
-        )
+        ).decode('utf-8')
 
     def cell(self, row, col):
         if row < 0 or row >= self._rows or col < 0 or col >= self._cols:

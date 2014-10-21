@@ -1,3 +1,4 @@
+# coding=utf-8
 from . import VT100Test
 
 class ProcessingTest(VT100Test):

@@ -76,7 +76,11 @@ static PyObject *py_vt100_get_string_formatted(PyObject *self, PyObject *args)
 
     vt100_screen_get_string_formatted(vt, &start, &end, &outstr, &outlen);
 
+#if PY_MAJOR_VERSION == 3
+    return Py_BuildValue("y#", outstr, outlen);
+#else
     return Py_BuildValue("s#", outstr, outlen);
+#endif
 }
 
 static PyObject *py_vt100_get_string_plaintext(PyObject *self, PyObject *args)
@@ -92,7 +96,11 @@ static PyObject *py_vt100_get_string_plaintext(PyObject *self, PyObject *args)
 
     vt100_screen_get_string_plaintext(vt, &start, &end, &outstr, &outlen);
 
+#if PY_MAJOR_VERSION == 3
+    return Py_BuildValue("y#", outstr, outlen);
+#else
     return Py_BuildValue("s#", outstr, outlen);
+#endif
 }
 
 static PyObject *py_vt100_delete(PyObject *self, PyObject *args)

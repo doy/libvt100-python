@@ -7,7 +7,7 @@ class VT100Test(unittest.TestCase):
         self.vt = vt100.vt100(24, 80)
 
     def process(self, text):
-        if type(text) == type(""):
+        if type(text) == type(u""):
             length = len(text.encode("utf-8"))
         else:
             length = len(text)
