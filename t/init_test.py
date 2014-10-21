@@ -2,8 +2,7 @@ from . import VT100Test
 
 class InitTest(VT100Test):
     def test_init(self):
-        assert self.vt.rows == 24
-        assert self.vt.cols == 80
+        assert self.vt.window_size() == (24, 80)
 
         row, col = self.vt.cursor_pos()
         assert row == 0

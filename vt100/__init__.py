@@ -151,114 +151,118 @@ class vt100_screen(Structure):
 # XXX process/cell need mutexes
 class vt100(object):
     def __init__(self, rows, cols):
-        self.rows = rows
-        self.cols = cols
-        self.vt = vt100_raw.new(rows, cols)
-        self.screen = vt100_screen.from_address(self.vt)
+        self._rows = rows
+        self._cols = cols
+        self._screen = vt100_screen.from_address(vt100_raw.new(rows, cols))
 
     def __del__(self):
-        vt100_raw.delete(self.vt)
+        vt100_raw.delete(addressof(self._screen))
+
+    def window_size(self):
+        return self._rows, self._cols
 
     def set_window_size(self, rows, cols):
-        self.rows = rows
-        self.cols = cols
-        vt100_raw.set_window_size(self.vt, rows, cols)
+        self._rows = rows
+        self._cols = cols
+        vt100_raw.set_window_size(addressof(self._screen), rows, cols)
 
     def process(self, string):
-        return vt100_raw.process_string(self.vt, string)
+        return vt100_raw.process_string(addressof(self._screen), string)
 
     def get_string_formatted(self, row_start, col_start, row_end, col_end):
-        row_start = min(max(row_start, 0), self.rows - 1)
-        col_start = min(max(col_start, 0), self.cols - 1)
-        row_end = min(max(row_end, 0), self.rows - 1)
-        col_end = min(max(col_end, 0), self.cols - 1)
+        row_start = min(max(row_start, 0), self._rows - 1)
+        col_start = min(max(col_start, 0), self._cols - 1)
+        row_end = min(max(row_end, 0), self._rows - 1)
+        col_end = min(max(col_end, 0), self._cols - 1)
         return vt100_raw.get_string_formatted(
-            self.vt, row_start, col_start, row_end, col_end
+            addressof(self._screen), row_start, col_start, row_end, col_end
         )
 
     def get_string_plaintext(self, row_start, col_start, row_end, col_end):
-        row_start = min(max(row_start, 0), self.rows - 1)
-        col_start = min(max(col_start, 0), self.cols - 1)
-        row_end = min(max(row_end, 0), self.rows - 1)
-        col_end = min(max(col_end, 0), self.cols - 1)
+        row_start = min(max(row_start, 0), self._rows - 1)
+        col_start = min(max(col_start, 0), self._cols - 1)
+        row_end = min(max(row_end, 0), self._rows - 1)
+        col_end = min(max(col_end, 0), self._cols - 1)
         return vt100_raw.get_string_plaintext(
-            self.vt, row_start, col_start, row_end, col_end
+            addressof(self._screen), row_start, col_start, row_end, col_end
         )
 
     def cell(self, row, col):
-        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+        if row < 0 or row >= self._rows or col < 0 or col >= self._cols:
             return None
-        return vt100_cell.from_address(vt100_raw.cell_at(self.vt, row, col))
+        return vt100_cell.from_address(
+            vt100_raw.cell_at(addressof(self._screen), row, col)
+        )
 
     def cursor_pos(self):
-        pos = self.screen._grid.contents._cur
+        pos = self._screen._grid.contents._cur
         return pos.row, pos.col
 
     def title(self):
-        title_str = self.screen._title
+        title_str = self._screen._title
         if title_str is None:
             return ""
         else:
-            return title_str[:self.screen._title_len].decode('utf-8')
+            return title_str[:self._screen._title_len].decode('utf-8')
 
     def icon_name(self):
-        icon_name_str = self.screen._icon_name
+        icon_name_str = self._screen._icon_name
         if icon_name_str is None:
             return ""
         else:
-            return icon_name_str[:self.screen._icon_name_len].decode('utf-8')
+            return icon_name_str[:self._screen._icon_name_len].decode('utf-8')
 
     def default_fgcolor(self):
-        return self.screen._attrs._fgcolor.color()
+        return self._screen._attrs._fgcolor.color()
 
     def default_bgcolor(self):
-        return self.screen._attrs._bgcolor.color()
+        return self._screen._attrs._bgcolor.color()
 
     def all_default_attrs(self):
-        return self.screen._attrs._attrs
+        return self._screen._attrs._attrs
 
     def default_bold(self):
-        return self.screen._attrs._bold != 0
+        return self._screen._attrs._bold != 0
 
     def default_italic(self):
-        return self.screen._attrs._italic != 0
+        return self._screen._attrs._italic != 0
 
     def default_underline(self):
-        return self.screen._attrs._underline != 0
+        return self._screen._attrs._underline != 0
 
     def default_inverse(self):
-        return self.screen._attrs._inverse != 0
+        return self._screen._attrs._inverse != 0
 
     def hide_cursor(self):
-        return self.screen._hide_cursor != 0
+        return self._screen._hide_cursor != 0
 
     def application_keypad(self):
-        return self.screen._application_keypad != 0
+        return self._screen._application_keypad != 0
 
     def application_cursor(self):
-        return self.screen._application_cursor != 0
+        return self._screen._application_cursor != 0
 
     def mouse_reporting_press(self):
-        return self.screen._mouse_reporting_press != 0
+        return self._screen._mouse_reporting_press != 0
 
     def mouse_reporting_press_release(self):
-        return self.screen._mouse_reporting_press_release != 0
+        return self._screen._mouse_reporting_press_release != 0
 
     def mouse_reporting_button_motion(self):
-        return self.screen._mouse_reporting_button_motion != 0
+        return self._screen._mouse_reporting_button_motion != 0
 
     def mouse_reporting_sgr_mode(self):
-        return self.screen._mouse_reporting_sgr_mode != 0
+        return self._screen._mouse_reporting_sgr_mode != 0
 
     def bracketed_paste(self):
-        return self.screen._bracketed_paste != 0
+        return self._screen._bracketed_paste != 0
 
     def seen_visual_bell(self):
-        seen = self.screen._visual_bell
-        self.screen._visual_bell = 0
+        seen = self._screen._visual_bell
+        self._screen._visual_bell = 0
         return seen != 0
 
     def seen_audible_bell(self):
-        seen = self.screen._audible_bell
-        self.screen._audible_bell = 0
+        seen = self._screen._audible_bell
+        self._screen._audible_bell = 0
         return seen != 0
