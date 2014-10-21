@@ -7,6 +7,12 @@ class CSITest(VT100Test):
         self.process("\033[10;10H")
         assert self.vt.cursor_pos() == (9, 9)
 
+        self.process("\033[d")
+        assert self.vt.cursor_pos() == (0, 9)
+
+        self.process("\033[15d")
+        assert self.vt.cursor_pos() == (14, 9)
+
         self.process("\033[H")
         assert self.vt.cursor_pos() == (0, 0)
 
