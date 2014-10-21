@@ -163,7 +163,7 @@ class CSITest(VT100Test):
         self.process("\033[1;2H\033[?K")
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'f' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 15)
 
-    def test_ich_dch(self):
+    def test_ich_dch_ech(self):
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
 
         self.process("\033[10;10Hfoobar")
@@ -188,6 +188,22 @@ class CSITest(VT100Test):
         self.process("\033[10;12H\033[100P")
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         fo' + ("\n" * 15)
         assert self.vt.cursor_pos() == (9, 11)
+
+        self.process("obar")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         foobar' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 15)
+
+        self.process("\033[10;13H\033[X")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         foo ar' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 12)
+
+        self.process("\033[10;11H\033[4X")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         f    r' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 10)
+
+        self.process("\033[10;11H\033[400X")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         f' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 10)
 
     def test_il_dl(self):
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
