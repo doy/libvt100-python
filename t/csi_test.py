@@ -95,3 +95,39 @@ class CSITest(VT100Test):
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 4) + '      r' + ("\n" * 5) + '         ba' + ("\n" * 15)
         self.process("\033[7;7H\033[?2J")
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
+
+    def test_el(self):
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
+
+        self.process("foo\033[5;5Hbarbar\033[10;10Hbazbaz\033[20;20Hquux")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    barbar' + ("\n" * 5) + '         bazbaz' + ("\n" * 10) + '                   quux' + ("\n" * 5)
+
+        self.process("\033[5;8H\033[0K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    bar' + ("\n" * 5) + '         bazbaz' + ("\n" * 10) + '                   quux' + ("\n" * 5)
+
+        self.process("\033[10;13H\033[1K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 10) + '                   quux' + ("\n" * 5)
+
+        self.process("\033[20;22H\033[2K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 15)
+
+        self.process("\033[1;2H\033[K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'f' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 15)
+
+        self.process("\033[2J\033[H")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 24)
+
+        self.process("foo\033[5;5Hbarbar\033[10;10Hbazbaz\033[20;20Hquux")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    barbar' + ("\n" * 5) + '         bazbaz' + ("\n" * 10) + '                   quux' + ("\n" * 5)
+
+        self.process("\033[5;8H\033[?0K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    bar' + ("\n" * 5) + '         bazbaz' + ("\n" * 10) + '                   quux' + ("\n" * 5)
+
+        self.process("\033[10;13H\033[?1K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 10) + '                   quux' + ("\n" * 5)
+
+        self.process("\033[20;22H\033[?2K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'foo' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 15)
+
+        self.process("\033[1;2H\033[?K")
+        assert self.vt.get_string_plaintext(0, 0, 500, 500) == 'f' + ("\n" * 4) + '    bar' + ("\n" * 5) + '            baz' + ("\n" * 15)
