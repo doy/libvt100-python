@@ -1,0 +1,188 @@
+from . import VT100Test
+
+class ModeTest(VT100Test):
+    def test_modes(self):
+        assert not self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?1h")
+
+        assert not self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?9h")
+
+        assert not self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?25l")
+
+        assert     self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?1000h")
+
+        assert     self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?1002h")
+
+        assert     self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?1006h")
+
+        assert     self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033[?2004h")
+
+        assert     self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033=")
+
+        assert     self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert     self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?1l")
+
+        assert     self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert     self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?9l")
+
+        assert     self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?25h")
+
+        assert not self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert     self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?1000l")
+
+        assert not self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert     self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?1002l")
+
+        assert not self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert     self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?1006l")
+
+        assert not self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert     self.vt.bracketed_paste()
+
+        self.process("\033[?2004l")
+
+        assert not self.vt.hide_cursor()
+        assert     self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
+
+        self.process("\033>")
+
+        assert not self.vt.hide_cursor()
+        assert not self.vt.application_keypad()
+        assert not self.vt.application_cursor()
+        assert not self.vt.mouse_reporting_press()
+        assert not self.vt.mouse_reporting_press_release()
+        assert not self.vt.mouse_reporting_button_motion()
+        assert not self.vt.mouse_reporting_sgr_mode()
+        assert not self.vt.bracketed_paste()
