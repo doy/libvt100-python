@@ -177,6 +177,8 @@ class CSITest(VT100Test):
 
         self.process("obar")
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         foobar' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 15)
 
         self.process("\033[10;12H\033[100P")
         assert self.vt.get_string_plaintext(0, 0, 500, 500) == ("\n" * 9) + '         fo' + ("\n" * 15)
+        assert self.vt.cursor_pos() == (9, 11)
