@@ -6,4 +6,4 @@ python:
 
 script:
     - python setup.py build
-    - PYTHONPATH=build/lib.* nosetests
+    - PYTHONPATH=$(echo build/lib.*) nosetests
