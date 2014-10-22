@@ -169,21 +169,21 @@ class vt100(object):
     def process(self, string):
         return vt100_raw.process_string(addressof(self._screen), string)
 
-    def get_string_formatted(self, row_start, col_start, row_end, col_end):
-        row_start = min(max(row_start, 0), self._rows - 1)
-        col_start = min(max(col_start, 0), self._cols - 1)
-        row_end = min(max(row_end, 0), self._rows - 1)
-        col_end = min(max(col_end, 0), self._cols - 1)
-        return vt100_raw.get_string_formatted(
-            addressof(self._screen), row_start, col_start, row_end, col_end
-        ).decode('utf-8')
-
-    def get_string_plaintext(self, row_start, col_start, row_end, col_end):
+    def window_contents(self, row_start, col_start, row_end, col_end):
         row_start = min(max(row_start, 0), self._rows - 1)
         col_start = min(max(col_start, 0), self._cols - 1)
         row_end = min(max(row_end, 0), self._rows - 1)
         col_end = min(max(col_end, 0), self._cols - 1)
         return vt100_raw.get_string_plaintext(
+            addressof(self._screen), row_start, col_start, row_end, col_end
+        ).decode('utf-8')
+
+    def window_contents_formatted(self, row_start, col_start, row_end, col_end):
+        row_start = min(max(row_start, 0), self._rows - 1)
+        col_start = min(max(col_start, 0), self._cols - 1)
+        row_end = min(max(row_end, 0), self._rows - 1)
+        col_end = min(max(col_end, 0), self._cols - 1)
+        return vt100_raw.get_string_formatted(
             addressof(self._screen), row_start, col_start, row_end, col_end
         ).decode('utf-8')
 
@@ -194,7 +194,7 @@ class vt100(object):
             vt100_raw.cell_at(addressof(self._screen), row, col)
         )
 
-    def cursor_pos(self):
+    def cursor_position(self):
         pos = self._screen._grid.contents._cur
         return pos.row, pos.col
 
@@ -212,25 +212,25 @@ class vt100(object):
         else:
             return icon_name_str[:self._screen._icon_name_len].decode('utf-8')
 
-    def default_fgcolor(self):
+    def fgcolor(self):
         return self._screen._attrs._fgcolor.color()
 
-    def default_bgcolor(self):
+    def bgcolor(self):
         return self._screen._attrs._bgcolor.color()
 
-    def all_default_attrs(self):
+    def all_attrs(self):
         return self._screen._attrs._attrs
 
-    def default_bold(self):
+    def bold(self):
         return self._screen._attrs._bold != 0
 
-    def default_italic(self):
+    def italic(self):
         return self._screen._attrs._italic != 0
 
-    def default_underline(self):
+    def underline(self):
         return self._screen._attrs._underline != 0
 
-    def default_inverse(self):
+    def inverse(self):
         return self._screen._attrs._inverse != 0
 
     def hide_cursor(self):

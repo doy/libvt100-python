@@ -4,7 +4,7 @@ class InitTest(VT100Test):
     def test_init(self):
         assert self.vt.window_size() == (24, 80)
 
-        row, col = self.vt.cursor_pos()
+        row, col = self.vt.cursor_position()
         assert row == 0
         assert col == 0
 
@@ -17,19 +17,19 @@ class InitTest(VT100Test):
         cell = self.vt.cell(0, 80)
         assert cell is None
 
-        assert self.vt.get_string_plaintext(0, 0, 500, 500) == ('\n' * 24)
-        assert self.vt.get_string_formatted(0, 0, 500, 500) == ('\n' * 24)
+        assert self.vt.window_contents(0, 0, 500, 500) == ('\n' * 24)
+        assert self.vt.window_contents_formatted(0, 0, 500, 500) == ('\n' * 24)
 
         assert self.vt.title() == ""
         assert self.vt.icon_name() == ""
 
-        assert self.vt.default_fgcolor() is None
-        assert self.vt.default_bgcolor() is None
+        assert self.vt.fgcolor() is None
+        assert self.vt.bgcolor() is None
 
-        assert not self.vt.default_bold()
-        assert not self.vt.default_italic()
-        assert not self.vt.default_underline()
-        assert not self.vt.default_inverse()
+        assert not self.vt.bold()
+        assert not self.vt.italic()
+        assert not self.vt.underline()
+        assert not self.vt.inverse()
 
         assert not self.vt.hide_cursor()
         assert not self.vt.application_keypad()
