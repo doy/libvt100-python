@@ -265,6 +265,9 @@ class vt100(object):
     def bracketed_paste(self):
         return self._screen._bracketed_paste != 0
 
+    def alternate_buffer_active(self):
+        return bool(self._screen._alternate)
+
     def seen_visual_bell(self):
         seen = self._screen._visual_bell
         self._screen._visual_bell = 0
