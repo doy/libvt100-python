@@ -1,5 +1,12 @@
 Revision history for vt100
 
+0.2.0  2014-10-22
+    - Give some methods a better name (not backwards compatible!)
+    - Expose a lot more methods on the vt object (to cover the various modes
+      and state of the terminal)
+    - Add a test suite, and fix quite a few bugs in the parser
+    - Python 2.7 should be fully supported now
+
 0.1.6  2014-10-17
     - Fix ctypes struct definition to match the c-level definition (this fixes
       cell.is_wide())
