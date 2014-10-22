@@ -14,7 +14,7 @@ class ControlTest(VT100Test):
         assert self.vt.cell(0, 2).contents() == "a"
         assert self.vt.cell(0, 3).contents() == ""
         assert self.vt.cell(1, 0).contents() == ""
-        assert self.vt.window_contents(0, 0, 23, 79) == 'faa' + ('\n' * 24)
+        assert self.vt.window_contents() == 'faa' + ('\n' * 24)
         self.process("\r\nquux\b\b\b\b\b\bbar")
         assert self.vt.cell(1, 0).contents() == "b"
         assert self.vt.cell(1, 1).contents() == "a"
@@ -22,7 +22,7 @@ class ControlTest(VT100Test):
         assert self.vt.cell(1, 3).contents() == "x"
         assert self.vt.cell(1, 4).contents() == ""
         assert self.vt.cell(2, 0).contents() == ""
-        assert self.vt.window_contents(0, 0, 23, 79) == 'faa\nbarx' + ('\n' * 23)
+        assert self.vt.window_contents() == 'faa\nbarx' + ('\n' * 23)
 
     def test_tab(self):
         self.process("foo\tbar")
@@ -38,7 +38,7 @@ class ControlTest(VT100Test):
         assert self.vt.cell(0, 9).contents() == "a"
         assert self.vt.cell(0, 10).contents() == "r"
         assert self.vt.cell(0, 11).contents() == ""
-        assert self.vt.window_contents(0, 0, 23, 79) == 'foo     bar' + ('\n' * 24)
+        assert self.vt.window_contents() == 'foo     bar' + ('\n' * 24)
 
     def test_lf(self):
         self.process("foo\nbar")
@@ -53,7 +53,7 @@ class ControlTest(VT100Test):
         assert self.vt.cell(1, 4).contents() == "a"
         assert self.vt.cell(1, 5).contents() == "r"
         assert self.vt.cell(1, 6).contents() == ""
-        assert self.vt.window_contents(0, 0, 23, 79) == 'foo\n   bar' + ('\n' * 23)
+        assert self.vt.window_contents() == 'foo\n   bar' + ('\n' * 23)
 
     def test_cr(self):
         self.process("fooo\rbar")
@@ -63,4 +63,4 @@ class ControlTest(VT100Test):
         assert self.vt.cell(0, 3).contents() == "o"
         assert self.vt.cell(0, 4).contents() == ""
         assert self.vt.cell(1, 0).contents() == ""
-        assert self.vt.window_contents(0, 0, 23, 79) == 'baro' + ('\n' * 24)
+        assert self.vt.window_contents() == 'baro' + ('\n' * 24)

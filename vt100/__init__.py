@@ -169,7 +169,11 @@ class vt100(object):
     def process(self, string):
         return vt100_raw.process_string(addressof(self._screen), string)
 
-    def window_contents(self, row_start, col_start, row_end, col_end):
+    def window_contents(self, row_start=0, col_start=0, row_end=None, col_end=None):
+        if row_end is None:
+            row_end = self._rows - 1
+        if col_end is None:
+            col_end = self._cols - 1
         row_start = min(max(row_start, 0), self._rows - 1)
         col_start = min(max(col_start, 0), self._cols - 1)
         row_end = min(max(row_end, 0), self._rows - 1)
@@ -178,7 +182,11 @@ class vt100(object):
             addressof(self._screen), row_start, col_start, row_end, col_end
         ).decode('utf-8')
 
-    def window_contents_formatted(self, row_start, col_start, row_end, col_end):
+    def window_contents_formatted(self, row_start=0, col_start=0, row_end=None, col_end=None):
+        if row_end is None:
+            row_end = self._rows - 1
+        if col_end is None:
+            col_end = self._cols - 1
         row_start = min(max(row_start, 0), self._rows - 1)
         col_start = min(max(col_start, 0), self._cols - 1)
         row_end = min(max(row_end, 0), self._rows - 1)

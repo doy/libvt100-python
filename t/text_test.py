@@ -49,7 +49,6 @@ class TextTest(VT100Test):
         assert self.vt.cell(0, 5).contents() == ""
         assert self.vt.cell(0, 6).contents() == ""
         assert self.vt.cell(1, 0).contents() == ""
-        print(self.vt.window_contents(0, 0, 0, 50))
         assert self.vt.window_contents(0, 0, 23, 79) == u'aデbネ' + ('\n' * 24)
         assert self.vt.window_contents(0, 0, 500, 500) == u'aデbネ' + ('\n' * 24)
 
@@ -70,7 +69,7 @@ class TextTest(VT100Test):
 
     def test_wrap(self):
         self.process("0123456789" * 10)
-        assert self.vt.window_contents(0, 0, 500, 500) == ("0123456789" * 10) + ("\n" * 23)
+        assert self.vt.window_contents() == ("0123456789" * 10) + ("\n" * 23)
         self.process("\033[5H" + "0123456789" * 8)
         self.process("\033[6H" + "0123456789" * 8)
-        assert self.vt.window_contents(0, 0, 500, 500) == ("0123456789" * 10) + ("\n" * 3) + ("0123456789" * 8) + "\n" + ("0123456789" * 8) + ("\n" * 19)
+        assert self.vt.window_contents() == ("0123456789" * 10) + ("\n" * 3) + ("0123456789" * 8) + "\n" + ("0123456789" * 8) + ("\n" * 19)

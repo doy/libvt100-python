@@ -10,7 +10,7 @@ class EscapeTest(VT100Test):
 
     def test_ri(self):
         self.process("foo\nbar\033Mbaz")
-        assert self.vt.window_contents(0, 0, 23, 79) == 'foo   baz\n   bar' + ('\n' * 23)
+        assert self.vt.window_contents() == 'foo   baz\n   bar' + ('\n' * 23)
 
     def test_ris(self):
         row, col = self.vt.cursor_position()
@@ -20,8 +20,8 @@ class EscapeTest(VT100Test):
         cell = self.vt.cell(0, 0)
         assert cell.contents() == ""
 
-        assert self.vt.window_contents(0, 0, 500, 500) == ('\n' * 24)
-        assert self.vt.window_contents_formatted(0, 0, 500, 500) == ('\n' * 24)
+        assert self.vt.window_contents() == ('\n' * 24)
+        assert self.vt.window_contents_formatted() == ('\n' * 24)
 
         assert self.vt.title() == ""
         assert self.vt.icon_name() == ""
@@ -54,8 +54,8 @@ class EscapeTest(VT100Test):
         cell = self.vt.cell(0, 0)
         assert cell.contents() == "f"
 
-        assert self.vt.window_contents(0, 0, 500, 500) == 'foo' + ('\n' * 24)
-        assert self.vt.window_contents_formatted(0, 0, 500, 500) == 'f\033[31;47;1;3;4moo' + ('\n' * 24)
+        assert self.vt.window_contents() == 'foo' + ('\n' * 24)
+        assert self.vt.window_contents_formatted() == 'f\033[31;47;1;3;4moo' + ('\n' * 24)
 
         assert self.vt.title() == "window title"
         assert self.vt.icon_name() == "window icon name"
@@ -88,8 +88,8 @@ class EscapeTest(VT100Test):
         cell = self.vt.cell(0, 0)
         assert cell.contents() == ""
 
-        assert self.vt.window_contents(0, 0, 500, 500) == ('\n' * 24)
-        assert self.vt.window_contents_formatted(0, 0, 500, 500) == ('\n' * 24)
+        assert self.vt.window_contents() == ('\n' * 24)
+        assert self.vt.window_contents_formatted() == ('\n' * 24)
 
         # title and icon name don't change with reset
         assert self.vt.title() == "window title"
@@ -122,4 +122,4 @@ class EscapeTest(VT100Test):
 
     def test_decsc(self):
         self.process("foo\0337\r\n\r\n\r\n         bar\0338baz")
-        assert self.vt.window_contents(0, 0, 23, 79) == 'foobaz\n\n\n         bar' + ('\n' * 21)
+        assert self.vt.window_contents() == 'foobaz\n\n\n         bar' + ('\n' * 21)

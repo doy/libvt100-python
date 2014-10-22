@@ -17,8 +17,8 @@ class InitTest(VT100Test):
         cell = self.vt.cell(0, 80)
         assert cell is None
 
-        assert self.vt.window_contents(0, 0, 500, 500) == ('\n' * 24)
-        assert self.vt.window_contents_formatted(0, 0, 500, 500) == ('\n' * 24)
+        assert self.vt.window_contents() == ('\n' * 24)
+        assert self.vt.window_contents_formatted() == ('\n' * 24)
 
         assert self.vt.title() == ""
         assert self.vt.icon_name() == ""
