@@ -110,8 +110,6 @@ class vt100_grid(Structure):
         ("_cur", vt100_loc),
         ("_max", vt100_loc),
         ("_saved", vt100_loc),
-        ("_selection_start", vt100_loc),
-        ("_selection_end", vt100_loc),
         ("_scroll_top", c_int),
         ("_scroll_bottom", c_int),
         ("_row_count", c_int),
@@ -143,7 +141,6 @@ class vt100_screen(Structure):
         ("_audible_bell", c_ubyte, 1),
         ("_update_title", c_ubyte, 1),
         ("_update_icon_name", c_ubyte, 1),
-        ("_has_selection", c_ubyte, 1),
         ("_dirty", c_ubyte, 1),
         ("_custom_scrollback_length", c_ubyte, 1),
     ]

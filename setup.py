@@ -27,10 +27,12 @@ setup(
                 "vt100module.c",
                 "libvt100/src/screen.c",
                 "libvt100/src/parser.c",
+                "libvt100/src/unicode-extra.c",
             ],
             depends=[
                 "libvt100/src/screen.h",
                 "libvt100/src/parser.h",
+                "libvt100/src/unicode-extra.h",
                 "libvt100/src/vt100.h",
             ],
             **pkgconfig('glib-2.0')
