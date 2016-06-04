@@ -1,5 +1,12 @@
 Revision history for vt100
 
+0.3.0  2016-06-04
+    - Fix returning uninit memory in get_string_formatted/get_string_plaintext
+    - Handle emoji and zero width unicode characters properly
+    - Fix cursor positioning with regards to scroll regions and wrapping
+    - Fix parsing of (ignored) character set escapes
+    - Explicitly suppress status report escapes
+
 0.2.0  2014-10-22
     - Give some methods a better name (not backwards compatible!)
     - Expose a lot more methods on the vt object (to cover the various modes

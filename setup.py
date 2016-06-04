@@ -13,7 +13,7 @@ def pkgconfig(*packages, **kw):
 
 setup(
     name="vt100",
-    version="0.2.0",
+    version="0.3.0",
     description="an in-memory terminal parsing library",
     author="Jesse Luehrs",
     author_email="doy@tozt.net",
